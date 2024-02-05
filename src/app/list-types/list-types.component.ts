@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TypeService } from './../services/type.service';
+import { Type } from './../models/type.model';
 
 @Component({
   selector: 'app-list-types',
@@ -7,6 +10,17 @@ import { Component } from '@angular/core';
   templateUrl: './list-types.component.html',
   styleUrl: './list-types.component.css'
 })
-export class ListTypesComponent {
-
+export class ListTypesComponent implements OnInit {
+  constructor(private typeService: TypeService) { }
+  types?: Type[];
+  ngOnInit() {
+    this.typeService.getAll()
+          .subscribe({
+            next: (data) => {
+              this.types = data;
+              console.log(data);
+            },
+            error: (e) => console.error(e)
+          });
+  }
 }

@@ -1,30 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserService } from './../services/user.service';
+import { User } from './../models/user.model';
 
 @Component({
   selector: 'app-list-users',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [],
   templateUrl: './list-users.component.html',
   styleUrl: './list-users.component.css'
 })
 export class ListUsersComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
-  users: any;
+  constructor(private userService: UserService) { }
+  users?: User[];
   ngOnInit() {
-    this.getUsers(); // to prevent ngFor to throw while we wait for API to return data
+    this.userService.getAll()
+          .subscribe({
+            next: (data) => {
+              this.users = data;
+              console.log(data);
+            },
+            error: (e) => console.error(e)
+          });
   }
-
-  public getUsers() {
-    this.http.get('https://reqres.in/api/users').subscribe(res => {
-      console.log(res)
-      this.users = res;
-      // data contains actual array of users
-    });
-  }
-
 
 }

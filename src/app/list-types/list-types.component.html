@@ -1,1 +1,22 @@
-<p>list-types works!</p>
+<div class="mt-5">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @for (type of types; track type.id; let i = $index) {
+    <tr>
+      <td>{{ type.id }}</td>
+      <td>{{ type.title }}</td>
+      <td></td>
+    </tr>
+    }
+
+    </tbody>
+  </table>
+</div>
